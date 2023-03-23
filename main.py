@@ -47,7 +47,7 @@ def login():
         for Username, Password in dict_users.items():
             Password = Password
             Username = Username
-            if username in dict_users:
+            if username == Username:
                 errorUsername = "The username was correct"
             else:
                 errorUsername = "Wrong username"
@@ -56,7 +56,8 @@ def login():
                 return render_template("dashboard.html", title="dashboard")
             else:
                 errorPassword = "Your password is wrong"
-                return render_template("login.html", title="Login", errorUsername=errorUsername,  errorPassword=errorPassword)
+                redirect(url_for('login', title="Login",
+                         errorUsername=True,  errorPassword=True))
     return render_template("login.html", title="Login", errorPassword=errorPassword, errorUsername=errorUsername)
 
 
