@@ -41,23 +41,28 @@ def login():
     errorUsername = None
     errorPassword = None
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = hash_password(password)
         for Username, Password in dict_users.items():
-            Password = Password
-            Username = Username
-            if username == Username:
+            username = request.form.get("username")
+            password = request.form.get("password")
+            hashed_password = hash_password(password)
+            if Username == username:
                 errorUsername = "The username was correct"
             else:
                 errorUsername = "Wrong username"
                 redirect(url_for('login', errorUsername=True))
-            if hashed_password == Password:
-                return render_template("dashboard.html", title="dashboard")
-            else:
-                errorPassword = "Your password is wrong"
-                redirect(url_for('login', title="Login",
-                         errorUsername=True,  errorPassword=True))
+                if hashed_password == Password:
+                    return render_template("dashboard.html", title="dashboard")
+                else:
+                    if username in dict_users:
+                        errorUsername = "username was correct"
+                        errorPassword = "Pasword incorrect"
+                        redirect(url_for('login', title="Login",
+                                 errorUsername=True,  errorPassword=True))
+                    if username not in dict_users:
+                        errorPassword = "Pasword incorrect"
+                        errorUsername = "username was NOT correct"
+                        redirect(url_for('login', title="Login",
+                                 errorUsername=True,  errorPassword=True))
     return render_template("login.html", title="Login", errorPassword=errorPassword, errorUsername=errorUsername)
 
 
