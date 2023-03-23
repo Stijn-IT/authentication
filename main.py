@@ -33,6 +33,9 @@ def lon():
 # https://realpython.com/introduction-to-flask-part-2-creating-a-login-page/
 
 
+dict_users = get_users()
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     errorUsername = None
@@ -41,15 +44,15 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         hashed_password = hash_password(password)
-        dict_users = get_users()
         for Username, Password in dict_users.items():
-            if username == Username:
-                password = Password
+            Password = Password
+            Username = Username
+            if username in dict_users:
                 errorUsername = "The username was correct"
             else:
                 errorUsername = "Wrong username"
                 redirect(url_for('login', errorUsername=True))
-            if hashed_password == password:
+            if hashed_password == Password:
                 return render_template("dashboard.html", title="dashboard")
             else:
                 errorPassword = "Your password is wrong"

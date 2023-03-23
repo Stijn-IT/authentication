@@ -15,5 +15,15 @@ def get_users():
 def hash_password(password):
     return sha3_512(password.encode("utf-8")).hexdigest()
 
-print(hash_password("secret"))
-print(get_users())
+# print(hash_password("secret"))
+# print(get_users())
+
+
+'''def hallo(username):
+    dict_users = get_users()
+    for Username, Password in dict_users.items():
+        if username == Username:
+            return Username
+
+
+print(hallo("Bob"))'''
